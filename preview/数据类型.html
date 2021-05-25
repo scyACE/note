@@ -1,0 +1,205 @@
+<html>
+  <head>
+	  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>i5ting_ztree_toc:数据类型</title>
+		<link href="toc/style/github-bf51422f4bb36427d391e4b75a1daa083c2d840e.css" media="all" rel="stylesheet" type="text/css"/>
+		<link href="toc/style/github2-d731afd4f624c99a4b19ad69f3083cd6d02b81d5.css" media="all" rel="stylesheet" type="text/css"/>
+		<link href="toc/css/zTreeStyle/zTreeStyle.css" media="all" rel="stylesheet" type="text/css"/>
+	  <style>
+		pre {
+		    counter-reset: line-numbering;
+		    border: solid 1px #d9d9d9;
+		    border-radius: 0;
+		    background: #fff;
+		    padding: 0;
+		    line-height: 23px;
+		    margin-bottom: 30px;
+		    white-space: pre;
+		    overflow-x: auto;
+		    word-break: inherit;
+		    word-wrap: inherit;
+		}
+
+		pre a::before {
+		  content: counter(line-numbering);
+		  counter-increment: line-numbering;
+		  padding-right: 1em; /* space after numbers */
+		  width: 25px;
+		  text-align: right;
+		  opacity: 0.7;
+		  display: inline-block;
+		  color: #aaa;
+		  background: #eee;
+		  margin-right: 16px;
+		  padding: 2px 10px;
+		  font-size: 13px;
+		  -webkit-touch-callout: none;
+		  -webkit-user-select: none;
+		  -khtml-user-select: none;
+		  -moz-user-select: none;
+		  -ms-user-select: none;
+		  user-select: none;
+		}
+
+		pre a:first-of-type::before {
+		  padding-top: 10px;
+		}
+
+		pre a:last-of-type::before {
+		  padding-bottom: 10px;
+		}
+
+		pre a:only-of-type::before {
+		  padding: 10px;
+		}
+
+		.highlight { background-color: #ffffcc } /* RIGHT */
+		</style>
+  </head>
+  <body>
+	  <div>
+				<div style='width:25%;'>
+						<ul id="tree" class="ztree" style='width:100%'>
+
+						</ul>
+				</div>
+        <div id='readme' style='width:70%;margin-left:20%;'>
+          	<article class='markdown-body'>
+            	<h3 id="-">数据类型</h3>
+<p> 在JS中一共有六种数据类型</p>
+<ul>
+<li>String 字符串</li>
+<li>Number 数字</li>
+<li>Null 空值</li>
+<li>Undefined 未定义</li>
+<li>Boolean 布尔</li>
+<li>Object 对象:<ul>
+<li>Function：一种特别的对象（可以执行）</li>
+<li>Array：一种特别的对象（数值下标，内部数据是有序的）</li>
+</ul>
+</li>
+</ul>
+<p>其中String Number Null Undefined Boolean 属于<font color='red'>基本数据类型</font>,而Object属于<font color='red'>引用数据类型</font></p>
+<h4 id="-">判断</h4>
+<ul>
+<li>typeof</li>
+<li>instanceof</li>
+<li>===</li>
+</ul>
+<h4 id="typeof">typeof</h4>
+<ul>
+<li>可以用来检查<strong>基本数据</strong>的类型,返回的是一个字符串</li>
+<li>可以判断undefined / number / string / boolean</li>
+<li>不能判断null和object object和array</li>
+<li>typeof null 返回 ‘object’，可通过===方式判断是否为null</li>
+</ul>
+<pre><code class="lang-javascript">console.log(typeof 123); // &quot;number&quot;
+console.log(typeof &quot;123&quot;); //&quot;string&quot;
+console.log(typeof true); // &quot;boolean&quot;
+console.log(typeof undefined); // &quot;undefined&quot;
+console.log(typeof null); //&quot;object&quot;
+console.log(typeof {}); //&quot;object&quot;
+console.log(typeof []); //&quot;object&quot;
+console.log(typeof function(){}); //&quot;function&quot;
+</code></pre>
+<p>因为数组和对象使用typeof检测都会返回&quot;object&quot;,可以通过以下几个方法去辨别到底是数组还是对象</p>
+<ul>
+<li>Array.isArray()</li>
+<li>Object.prototype.toString.call()   [object Array] [object Object]</li>
+</ul>
+<h4 id="instanceof">instanceof</h4>
+<ul>
+<li>判断一个对象的具体类型 </li>
+</ul>
+<h4 id="-">===</h4>
+<p>类型只可判断null和undefined</p>
+<h4 id="number">Number</h4>
+<pre><code class="lang-javascript">let a = Number.MAX_VALUE;
+
+let b = Number.MIN_VALUE; //无限接近0 0以上的最小值
+
+console.log(a,b); // 1.7976931348623157e+308 5e-324
+
+console.log(a * a); //比max更大的数是正无穷 Infinity 如果有负号（-） 则为负无穷 -Infinity
+
+typeof(Infinity);//Infinity也是一个常量 它的类型为number
+
+console.log(&quot;abc&quot; * 123);//NaN NaN是一个特殊的数字表示Not A Number
+
+typeof(NaN);// number
+</code></pre>
+<h5 id="-">精度丢失</h5>
+<p>原因：JavaScript中所有的数字只有一种类型-Number，它的实现遵循IEEE 754标准，使用64位固定长度来表示，也就是标准的double双精度浮点数，它更省空间</p>
+<pre><code class="lang-javascript">console.log(0.1 + 0.2); //0.30000000000000004
+</code></pre>
+<p>算数运算 是采用二进制运算，所以0.1就不再是0.1，0.2二进制表示的是一个无限循环的小数，在运算时截取，从而导致了精度丢失</p>
+<h6 id="-">解决方案</h6>
+<ol>
+<li>toFixed()</li>
+<li>将小数放大成为整数再除以倍数变成小数</li>
+<li>使用第三方库（如math.js）</li>
+</ol>
+<h4 id="boolean">Boolean</h4>
+<p> 布尔值只有两个 </p>
+<ul>
+<li>true：表示真</li>
+<li>false：表示假</li>
+</ul>
+<h4 id="null">Null</h4>
+<p>​    Null类型的值只有一个，就是null，表示一个为空的对象</p>
+<h4 id="undefined">Undefined</h4>
+<p>​    当声明一个变量，但是未赋值，它的值就是undefined</p>
+<h3 id="-">类型转换</h3>
+<ul>
+<li><h4 id="-">强制类型转换：</h4>
+<p>指将一个数据类型转化为其他的数据类型，类型转换主要指将其他的数据类型转换为<strong>String,Number,Boolean</strong>，使用String(),Number(),Boolean(),parseInt(),parseFloat(),toString()进行强制类型转换</p>
+</li>
+<li><h4 id="-">隐式类型转换：</h4>
+<ol>
+<li>用于检测是否是一个数字isNaN()</li>
+<li>递增递减操作符,运算操作符（++，--，+，-，*，/，%）</li>
+<li>逻辑操作符(! &amp;&amp; ||)</li>
+<li>关系操作符(&gt; &lt; &gt;= &lt;=)</li>
+<li>相等操作符(==)</li>
+</ol>
+</li>
+</ul>
+<h4 id="-">问题</h4>
+<ol>
+<li><p>undefined和null的区别？</p>
+<p>null表示变量被赋值了，值是null</p>
+<p>undefined表示变量被声明了，但是没有赋值</p>
+</li>
+<li><p>什么时候给变量赋值为null？</p>
+<p>初始化时定义为null，表示要定义一个对象</p>
+<p>结束前赋值表明对象为垃圾对象，进而被垃圾回收器回收</p>
+<pre><code class="lang-javascript">let o = null;
+o = {
+  name:&#39;123&#39;
+}
+o = null;
+</code></pre>
+</li>
+</ol>
+
+          	</article>
+        </div>
+		</div>
+  </body>
+</html>
+<script type="text/javascript" src="toc/js/jquery-1.4.4.min.js"></script>
+<script type="text/javascript" src="toc/js/jquery.ztree.all-3.5.min.js"></script>
+<script type="text/javascript" src="toc/js/ztree_toc.js"></script>
+<script type="text/javascript" src="toc_conf.js"></script>
+
+<SCRIPT type="text/javascript" >
+<!--
+$(document).ready(function(){
+    var css_conf = eval(markdown_panel_style);
+    $('#readme').css(css_conf)
+    
+    var conf = eval(jquery_ztree_toc_opts);
+		$('#tree').ztree_toc(conf);
+});
+//-->
+</SCRIPT>
